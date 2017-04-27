@@ -1,0 +1,1 @@
+Put JTattoo-1.6.11 in (Java_home)/jre/lib/ext
