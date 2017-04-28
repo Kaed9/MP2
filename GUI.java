@@ -23,7 +23,7 @@ public class GUI extends JFrame implements ActionListener {
 	
 	public GUI() {
 		
-		super("Image Compressor XD");
+		super("Multi Channel Image Compressor");
 		setLayout(null);
 		getContentPane().setBackground(Color.lightGray);
 		
