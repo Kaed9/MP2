@@ -14,10 +14,11 @@ public class PrioQueue{
 					buffer[a] = list[j];
 				}
 				list = null;
-				list = new HuffmanNode[buffer.length];
-				for(int j = 0; j < list.length; j++){
+				//list = new HuffmanNode[buffer.length];
+				list = buffer;
+				/*for(int j = 0; j < list.length; j++){
 					list[j] = buffer[j];
-				}
+				}*/
 				buffer = null;
 				return;
 			}
@@ -51,10 +52,11 @@ public class PrioQueue{
 				buffer[i] = list[i+1];
 			}
 			list = null;
-			list = new HuffmanNode[buffer.length];
-			for(int i = 0; i < list.length; i++){
+			//list = new HuffmanNode[buffer.length];
+			list = buffer;
+			/*for(int i = 0; i < list.length; i++){
 				list[i] = buffer[i];
-			}
+			}*/
 			buffer = null;
 			return ret;
 		}
