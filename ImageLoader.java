@@ -1,12 +1,13 @@
-import javax.swing.*;
-import javax.swing.border.*;
-import java.awt.*;
-import java.awt.image.*;
-import java.io.*;
-import javax.imageio.*;
-import java.util.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+import javax.imageio.ImageIO;
+import javax.swing.JPanel;
 
 public class ImageLoader extends JPanel{
 	HuffmanNode[] counters = null;
@@ -22,38 +23,6 @@ public class ImageLoader extends JPanel{
 		
 		this.gui = gui;
 	}
-	/*
-	public ImageLoader(String file){
-		try{
-			String file1 = file.substring(0, file.length()-3);;
-			file1 += "IJK";
-			BufferedReader reader = new BufferedReader(new FileReader(file1));
-			String s = reader.readLine();
-			height = Integer.parseInt(s);
-			s = reader.readLine();
-			width = Integer.parseInt(s);
-			image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-			if(width > height){
-				width2 = 1000;
-				height2 = (int)(((float)this.height/(float)this.width)*1000.0);
-				if(height2 > 690){
-					height2 = 690;
-					width2 = (int)(((float)this.width/(float)this.height)*750.0);
-				}
-			}else if(height > width){
-				height2 = 690;
-				width2 = (int)(((float)this.width/(float)this.height)*750.0);
-			}else{
-				height2 = 690;
-				width2 = 690;
-			}
-			System.out.println("Creating pixels Done");
-			System.out.println("Loading Image");
-			counters = getCounters(file);
-			tree = ImageReader.createHuffmanTree(counters);
-			getBinaryCode(file);
-		}catch(IOException e){}
-	}*/
 	
 	public BufferedImage getImage(String file) {
 		
@@ -104,7 +73,6 @@ public class ImageLoader extends JPanel{
 		InputStreamReader reader = null;
 		try{
 			System.out.println("Initiating Huff File Reading");
-			// gui.display("Initiating Huff File Reading");
 			reader = new InputStreamReader(new FileInputStream(file), "UTF-8");
 			while((line = reader.read()) != -1){fileLength++;}
 			reader.close();
@@ -119,7 +87,6 @@ public class ImageLoader extends JPanel{
 			reader.close();
 		}
 		System.out.println("Reading Huff File");
-		// gui.display("Reading Huff File");
 		for(int i = 0; i < dataByte.length-2; ){
 			counters[ctr] = new HuffmanNode(new Pixel((int)dataByte[i++], (int)dataByte[i++], (int)dataByte[i++], 0, 0));
 			String ctr1 = Integer.toBinaryString((int)dataByte[i++]), ctr2 = Integer.toBinaryString((int)dataByte[i++]), zeroes = "00000000";
@@ -137,14 +104,9 @@ public class ImageLoader extends JPanel{
 		counters = buffer;
 		System.out.println("Counters = " + counters.length + ", Actual = " + ctr );
 		System.out.println("Huff File Reading Done");
-		// gui.display("Huff File Reading Done");
 		return counters;
 	}
 	public void getBinaryCode(String file) throws IOException{
-		/*JFrame frame = new JFrame("Try");
-		frame.setSize(width2+16,height2+39);
-		frame.add(this, BorderLayout.CENTER);
-		frame.setVisible(true);*/
 		file = file.substring(0, file.length()-3);
 		file += "IJK";
 		int line;
@@ -198,21 +160,9 @@ public class ImageLoader extends JPanel{
 		}
 		System.out.println("Reading Image File Done");
 		gui.display("Reading Image File Done");
-		// DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		// Date date = new Date();
-		// System.out.println(dateFormat.format(date));
 		file = file.substring(0, file.length()-4);
 		file += "(compressed).png";
 		File outImage = new File(file);
 		ImageIO.write(image, "png", outImage);
 	}
-	
-	/*public void paintComponent(Graphics g){
-		super.paintComponent(g);
-		g.drawImage(image, 0, 0, width2, height2, null);
-	}
-	
-	public static void main(String[] args){
-		ImageLoader load = new ImageLoader("1b6cb62ad7963ea3b3e4b015fb7c06ab.png");
-	}*/
 }

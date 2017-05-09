@@ -1,19 +1,41 @@
-import javax.swing.*;
-import javax.swing.JFrame.*;
-import java.awt.*;
-import java.io.*;
-import java.awt.event.*;
-import javax.swing.border.*;
-import java.awt.image.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import java.util.Date;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Insets;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-// import java.util.Calendar;
-// import java.lang.Math;
-import javax.swing.text.DefaultCaret;
+import java.util.Date;
+
 import javax.swing.BorderFactory;
-import java.util.concurrent.TimeUnit;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.JToolBar;
+import javax.swing.KeyStroke;
+import javax.swing.UIManager;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.text.DefaultCaret;
 
 public class GUI extends JFrame implements ActionListener {
 	
@@ -21,8 +43,8 @@ public class GUI extends JFrame implements ActionListener {
 	private JMenu file, open, compress, edit;
 	private JMenuItem exit, pngImage, huffImage, newT, exist, train, comp;
 	private JPanel image, himage, time;
-	private JLabel first, second, finale;
-	private JTextField firstf, secondf, finalef;
+	private JLabel first, second;
+	private JTextField firstf, secondf;
 	private JLabel imageLabel, himageLabel;
 	private JTabbedPane imageTab, himageTab;
 	private JPanel statusTab, timeTab;
@@ -38,6 +60,9 @@ public class GUI extends JFrame implements ActionListener {
 	public GUI() {
 		
 		super("Multi Channel Image Compressor");
+		Image imagez = Toolkit.getDefaultToolkit().getImage(getClass().getResource("imagezipicon.png"));
+		ImageIcon iconz = new ImageIcon(imagez);
+		setIconImage(iconz.getImage());
 		setLayout(null);
 		getContentPane().setBackground(Color.lightGray);
 		
@@ -65,7 +90,6 @@ public class GUI extends JFrame implements ActionListener {
 		huffImage = new JMenuItem("Huffman coded image");
 		pngImage.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));
 		huffImage.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, ActionEvent.CTRL_MASK));
-		//huffImage.setEnabled(false);
 		open.add(pngImage);
 		open.add(huffImage);
 		
@@ -94,8 +118,6 @@ public class GUI extends JFrame implements ActionListener {
 		file.addSeparator();
 		file.add(exit);
 		
-		//edit.add(train);
-		//edit.addSeparator();
 		edit.add(compress);
 		edit.addSeparator();
 		edit.add(comp);
@@ -120,24 +142,18 @@ public class GUI extends JFrame implements ActionListener {
 		
 		first = new JLabel("STARTED", JLabel.CENTER);
 		second = new JLabel("FINISHED", JLabel.CENTER);
-		finale = new JLabel("DURATION", JLabel.CENTER);
 		
 		firstf = new JTextField();
 		secondf = new JTextField();
-		finalef = new JTextField();
 		firstf.setHorizontalAlignment(JTextField.CENTER);
 		secondf.setHorizontalAlignment(JTextField.CENTER);
-		finalef.setHorizontalAlignment(JTextField.CENTER);
 		firstf.setEditable(false);
 		secondf.setEditable(false);
-		finalef.setEditable(false);
 		
 		time.add(first);
 		time.add(firstf);
 		time.add(second);
 		time.add(secondf);
-		time.add(finale);
-		time.add(finalef);
 		timeTab.add(new JLabel("Time"), BorderLayout.NORTH);
 		timeTab.add(time, BorderLayout.CENTER);
 		
@@ -160,16 +176,12 @@ public class GUI extends JFrame implements ActionListener {
 		newhuff.setToolTipText("Create New Huff File");
 		updatehuff.setToolTipText("Update Existing Huff File");
 		compressimage.setToolTipText("Compress Image");
-		//hopen.setEnabled(false);
-		//trainhuff.setEnabled(false);
 		newhuff.setEnabled(false);
 		updatehuff.setEnabled(false);
 		compressimage.setEnabled(false);
 		toolBar.add(popen);
 		toolBar.add(hopen);
 		toolBar.addSeparator();
-		//toolBar.add(trainhuff);
-		//toolBar.addSeparator();
 		toolBar.add(newhuff);
 		toolBar.add(updatehuff);
 		toolBar.addSeparator();
@@ -226,7 +238,6 @@ public class GUI extends JFrame implements ActionListener {
 				image.setLayout(new FlowLayout(FlowLayout.LEFT));
 				image.setBackground(Color.WHITE);
 				imageLabel = new JLabel();
-				// himageLabel = new JLabel();
 				image.add(imageLabel);
 				
 				File selectedFile = fileChooser.getSelectedFile();
@@ -240,10 +251,6 @@ public class GUI extends JFrame implements ActionListener {
 				newhuff.setEnabled(true);
 				comp.setEnabled(true);
 				compressimage.setEnabled(true);
-				/*train.setEnabled(true);
-				trainhuff.setEnabled(true);
-				pngImage.setEnabled(false);
-				popen.setEnabled(false);*/
 				imageTab.addTab(imageName, null, (new JScrollPane(image, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED)), fileName);
 				JPanel pnlTab = new JPanel(new BorderLayout());
 				pnlTab.setOpaque(false);
@@ -276,10 +283,6 @@ public class GUI extends JFrame implements ActionListener {
 				himage.add(himageLabel);
 				
 				File selectedFile = fileChooser.getSelectedFile();
-				//pngImage.setEnabled(true);
-				//popen.setEnabled(true);
-				//huffImage.setEnabled(false);
-				//hopen.setEnabled(false);
 				String filename = "" + selectedFile;
 				imageName = "" + fileChooser.getSelectedFile().getName();
 				himageTab.addTab(imageName, (new JScrollPane(himage, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED)));
@@ -300,7 +303,6 @@ public class GUI extends JFrame implements ActionListener {
 				new Thread() { 
 					public void run() {
 						secondf.setText(null);
-						finalef.setText(null);
 						DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss:SS");
 						Date date = new Date();
 						firstf.setText(dateFormat.format(date));
@@ -311,56 +313,11 @@ public class GUI extends JFrame implements ActionListener {
 						DateFormat dateFormat1 = new SimpleDateFormat("HH:mm:ss:SS");
 						Date date1 = new Date();
 						secondf.setText(dateFormat1.format(date1));
-
-						long duration  = date1.getTime() - date.getTime();
-
-						long diffInSeconds = TimeUnit.MILLISECONDS.toSeconds(duration);
-						long diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration);
-						long diffInHours = TimeUnit.MILLISECONDS.toHours(duration);
-						long diffInMilli = TimeUnit.MILLISECONDS.toMillis(duration);
-						
-						finalef.setText(diffInHours + ":" + diffInMinutes + ":" + diffInSeconds + ":" + diffInMilli);
 						aFunctionRunning = false;
 					}
 				}.start();
 			}
-		}/* else if(event.getSource() == train || event.getSource() == trainhuff) {
-			int i = 0;
-			new Thread() {
-				public void run() {
-					train.setEnabled(false);
-					trainhuff.setEnabled(false);
-					
-					secondf.setText(null);
-					finalef.setText(null);
-					DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss:SS");
-					Date date = new Date();
-					firstf.setText(dateFormat.format(date));
-					
-					imageReader.loadImage(fileName);
-					imageReader.countFreq();
-					imageReader.assignTree(fileName);
-					
-					exist.setEnabled(true);
-					updatehuff.setEnabled(true);
-					newT.setEnabled(true);
-					newhuff.setEnabled(true);
-					
-					DateFormat dateFormat1 = new SimpleDateFormat("HH:mm:ss:SS");
-					Date date1 = new Date();
-					secondf.setText(dateFormat1.format(date1));
-					
-					long duration  = date1.getTime() - date.getTime();
-
-					long diffInSeconds = TimeUnit.MILLISECONDS.toSeconds(duration);
-					long diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration);
-					long diffInHours = TimeUnit.MILLISECONDS.toHours(duration);
-					long diffInMilli = TimeUnit.MILLISECONDS.toMillis(duration);
-					
-					finalef.setText(diffInHours + ":" + diffInMinutes + ":" + diffInSeconds + ":" + diffInMilli);
-				}
-			}.start();
-		}*/ else if(event.getSource() == exist || event.getSource() == updatehuff) {
+		} else if(event.getSource() == exist || event.getSource() == updatehuff) {
 			aFunctionRunning = true;
 			JFileChooser fileChooser = new JFileChooser();
 			fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("HUFF (*.HUFF)", "HUFF"));
@@ -373,13 +330,8 @@ public class GUI extends JFrame implements ActionListener {
 					public void run() {
 						File selectedFile = fileChooser.getSelectedFile();
 						String huffFileName = "" + selectedFile;
-						//exist.setEnabled(false);
-						//updatehuff.setEnabled(false);
-						//newT.setEnabled(false);
-						//newhuff.setEnabled(false);
 						
 						secondf.setText(null);
-						finalef.setText(null);
 						DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss:SS");
 						Date date = new Date();
 						firstf.setText(dateFormat.format(date));
@@ -394,42 +346,26 @@ public class GUI extends JFrame implements ActionListener {
 						imageReader.countFreq();
 						imageReader.assignTree(filename);
 						imageReader.createHuffFile(fileName);
-						//comp.setEnabled(true);
-						//compressimage.setEnabled(true);
 						
 						DateFormat dateFormat1 = new SimpleDateFormat("HH:mm:ss:SS");
 						Date date1 = new Date();
 						secondf.setText(dateFormat.format(date1));
-						
-						long duration  = date1.getTime() - date.getTime();
-
-						long diffInSeconds = TimeUnit.MILLISECONDS.toSeconds(duration);
-						long diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration);
-						long diffInHours = TimeUnit.MILLISECONDS.toHours(duration);
-						long diffInMilli = TimeUnit.MILLISECONDS.toMillis(duration);
-						
-						finalef.setText(diffInHours + ":" + diffInMinutes + ":" + diffInSeconds + ":" + diffInMilli);
+						aFunctionRunning = false;
 					}
 				}.start();
 			}
-			aFunctionRunning = false;
 		} else if(event.getSource() == comp || event.getSource() == compressimage) {
 			aFunctionRunning = true;
 			new Thread() { 
 				public void run() {
-					//comp.setEnabled(false);
-					//compressimage.setEnabled(false);
 					
 					secondf.setText(null);
-					finalef.setText(null);
 					DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss:SS");
 					Date date = new Date();
 					firstf.setText(dateFormat.format(date));
 					
 					try{
 						imageReader.createNewImageFile(fileName);
-						//huffImage.setEnabled(true);
-						//hopen.setEnabled(true);
 						int reply = JOptionPane.showConfirmDialog(null, "Would you like to open compressed image?", "Compressed Image Generated", JOptionPane.YES_NO_OPTION);
 						if(reply == JOptionPane.YES_OPTION){
 							aFunctionRunning = true;
@@ -458,7 +394,6 @@ public class GUI extends JFrame implements ActionListener {
 							new Thread() { 
 								public void run() {
 									secondf.setText(null);
-									finalef.setText(null);
 									DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss:SS");
 									Date date = new Date();
 									firstf.setText(dateFormat.format(date));
@@ -469,15 +404,6 @@ public class GUI extends JFrame implements ActionListener {
 									DateFormat dateFormat1 = new SimpleDateFormat("HH:mm:ss:SS");
 									Date date1 = new Date();
 									secondf.setText(dateFormat1.format(date1));
-
-									long duration  = date1.getTime() - date.getTime();
-
-									long diffInSeconds = TimeUnit.MILLISECONDS.toSeconds(duration);
-									long diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration);
-									long diffInHours = TimeUnit.MILLISECONDS.toHours(duration);
-									long diffInMilli = TimeUnit.MILLISECONDS.toMillis(duration);
-									
-									finalef.setText(diffInHours + ":" + diffInMinutes + ":" + diffInSeconds + ":" + diffInMilli);
 									aFunctionRunning = false;
 								}
 							}.start();
@@ -488,15 +414,6 @@ public class GUI extends JFrame implements ActionListener {
 						DateFormat dateFormat1 = new SimpleDateFormat("HH:mm:ss:SS");
 						Date date1 = new Date();
 						secondf.setText(dateFormat1.format(date1));
-						
-						long duration  = date1.getTime() - date.getTime();
-
-						long diffInSeconds = TimeUnit.MILLISECONDS.toSeconds(duration);
-						long diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration);
-						long diffInHours = TimeUnit.MILLISECONDS.toHours(duration);
-						long diffInMilli = TimeUnit.MILLISECONDS.toMillis(duration);
-						
-						finalef.setText(diffInHours + ":" + diffInMinutes + ":" + diffInSeconds + ":" + diffInMilli);
 						aFunctionRunning = false;
 					}
 				}
@@ -505,23 +422,11 @@ public class GUI extends JFrame implements ActionListener {
 			aFunctionRunning = true;
 			new Thread() {
 				public void run() {
-					//exist.setEnabled(false);
-					//updatehuff.setEnabled(false);
-					//newT.setEnabled(false);
-					//newhuff.setEnabled(false);
 					
 					secondf.setText(null);
-					finalef.setText(null);
 					DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss:SS");
 					Date date = new Date();
 					firstf.setText(dateFormat.format(date));
-					// long start = System.currentTimeMillis();
-					long start = System.nanoTime();
-					long milliseconds0 = start / 1000000;
-					long seconds0 = start / 1000000000;
-					long minutes0 = seconds0 / 60;
-					long hour0 = seconds0 / 3600;
-					display(hour0 + ":" + minutes0 + ":" + seconds0 + ":" + milliseconds0);
 					
 					int selectedIndex = imageTab.getSelectedIndex();
 					String filename = imageTab.getToolTipTextAt(selectedIndex);
@@ -529,38 +434,10 @@ public class GUI extends JFrame implements ActionListener {
 					imageReader.countFreq();
 					imageReader.assignTree(filename);
 					imageReader.createHuffFile(filename);
-					//comp.setEnabled(true);
-					//compressimage.setEnabled(true);
 					
 					DateFormat dateFormat1 = new SimpleDateFormat("HH:mm:ss:SS");
 					Date date1 = new Date();
 					secondf.setText(dateFormat1.format(date1));
-					// long end = System.currentTimeMillis();
-					long end = System.nanoTime();
-					long milliseconds1 = end / 1000000;
-					long seconds1 = end / 1000000000;
-					long minutes1 = seconds1 / 60;
-					long hour1 = seconds1 / 3600;
-					display(hour1 + ":" + minutes1 + ":" + seconds1 + ":" + milliseconds1);
-					
-					/*long duration  = date1.getTime() - date.getTime();
-
-					long diffInSeconds = TimeUnit.MILLISECONDS.toSeconds(duration);
-					long diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration);
-					long diffInHours = TimeUnit.MILLISECONDS.toHours(duration);
-					long diffInMilli = TimeUnit.MILLISECONDS.toMillis(duration);*/
-					long duration = end - start;
-					long miduration = milliseconds1 - milliseconds0;
-					long sduration = seconds1 - seconds0;
-					long mduration = minutes1 - minutes0;
-					long hduration = hour1 - hour0;
-					
-					// finalef.setText(diffInHours + ":" + diffInMinutes + ":" + diffInSeconds + ":" + diffInMilli);
-					long durMilli = TimeUnit.MILLISECONDS.convert(duration, TimeUnit.NANOSECONDS);
-					long durSec = TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS);
-					display("" + duration + " " + start + " " + end);
-					display(hduration + ":" + mduration + ":" + sduration + ":" + miduration);
-					finalef.setText(durSec + ":" + durMilli);
 					aFunctionRunning = false;
 				}
 			}.start();

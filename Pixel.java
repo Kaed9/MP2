@@ -1,4 +1,4 @@
-import java.awt.*;
+import java.awt.Color;
 
 public class Pixel extends Color{
 	int x = 0, y = 0;

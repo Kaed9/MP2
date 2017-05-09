@@ -1,10 +1,10 @@
-import java.awt.image.*;
-import java.awt.*;
-import java.io.*;
-import javax.imageio.*;
-import java.util.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.awt.image.BufferedImage;
+import java.awt.image.Raster;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.imageio.ImageIO;
 
 public class ImageReader{
 	BufferedImage image = null;
@@ -17,21 +17,6 @@ public class ImageReader{
 	public void setGUI(GUI gui) {		
 		this.gui = gui;
 	}
-	
-	/*public void createNewHuffman(String file){
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		Date date = new Date();
-		System.out.println(dateFormat.format(date));
-		
-		loadImage(file);
-		countFreq();
-		tree = createHuffmanTree(counters);
-		codeAssignment(tree, "");
-		System.out.println("Code Assigned");
-		createHuffFile(file);
-		createNewImageFile(file);
-		ImageLoader load = new ImageLoader(file);
-	}*/
 	
 	public void assignTree(String file) {
 		gui.display("Generating Tree");
@@ -106,7 +91,6 @@ public class ImageReader{
 					}
 				}
 			}
-			// System.out.println("Row " + i + " done");
 		}
 		System.out.println("Distinct Colors Counted");
 		gui.display("Distinct Colors Counted");
@@ -122,22 +106,18 @@ public class ImageReader{
 	
 	public static HuffmanNode createHuffmanTree(HuffmanNode[] counters){
 		System.out.println("Generating Tree");
-		// gui.display("Generating Tree");
 		PrioQueue prioQueue = new PrioQueue();
 		System.out.println("Generating Queue");
-		// gui.display("Generating Queue");
 		for(int i = 0; i < counters.length; i++){
 			prioQueue.enqueue(counters[i]);
 		}
 		System.out.println("Queue Generated");
-		// gui.display("Queue Generated");
 		while(prioQueue.list.length > 1){
 			HuffmanNode emptyNode = new HuffmanNode(prioQueue.dequeue(), prioQueue.dequeue());
 			emptyNode.ctr = emptyNode.left.ctr + emptyNode.right.ctr;
 			prioQueue.enqueue(emptyNode);
 		}
 		System.out.println("Tree Generated");
-		// gui.display("Tree Generated");
 		HuffmanNode tree = prioQueue.dequeue();
 		return tree;
 	}
@@ -234,9 +214,4 @@ public class ImageReader{
 			gui.display("Image File Created");
 		}catch(IOException e){}
 	}
-	/*
-	public static void main(String[] args){
-		ImageReader r = new ImageReader();
-		r.createNewHuffman("1b6cb62ad7963ea3b3e4b015fb7c06ab.png");
-	}*/
 }
