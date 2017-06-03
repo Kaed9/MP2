@@ -60,9 +60,9 @@ public class GUI extends JFrame implements ActionListener {
 	public GUI() {
 		
 		super("Multi Channel Image Compressor");
-		Image imagez = Toolkit.getDefaultToolkit().getImage(getClass().getResource("imagezipicon.png"));
-		ImageIcon iconz = new ImageIcon(imagez);
-		setIconImage(iconz.getImage());
+		// Image imagez = Toolkit.getDefaultToolkit().getImage(getClass().getResource("imagezipicon.png"));
+		// ImageIcon iconz = new ImageIcon(imagez);
+		// setIconImage(iconz.getImage());
 		setLayout(null);
 		getContentPane().setBackground(Color.lightGray);
 		
